@@ -1,24 +1,18 @@
-# README
+# Twitter API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Basics
 
-Things you may want to cover:
+- [ ] Endpoint to determine if API is online
 
-* Ruby version
+## User
 
-* System dependencies
+- [ ] Can create a new account
+- [ ] Can read account by id
+- [ ] Can delete account
+- [ ] Can update account
 
-* Configuration
 
-* Database creation
+## Sessions / Authentication
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- [ ] Can create session (log in)
+- [ ] Can delete session (log out)
