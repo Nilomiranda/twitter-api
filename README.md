@@ -15,4 +15,4 @@
 ## Sessions / Authentication
 
 - [X] Can create session (log in)
-- [ ] Can delete session (log out)
+- [X] Can delete session (log out)
