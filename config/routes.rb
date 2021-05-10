@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get '/status', to: 'application#api_status'
 
   post '/users', to: 'user#create'
-  get '/users/me', to: 'user#profile'
   get '/users/:id', to: 'user#read'
 
   post '/sessions', to: 'session#create'

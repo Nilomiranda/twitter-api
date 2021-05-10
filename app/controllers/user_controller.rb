@@ -33,10 +33,6 @@ class UserController < ApplicationController
     render json: UserBlueprint.render(user, { root: :user })
   end
 
-  def profile
-    render json: UserBlueprint.render(@current_user, { root: :user })
-  end
-
   private
 
   def user_params
