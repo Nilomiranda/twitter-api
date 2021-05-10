@@ -34,7 +34,13 @@ class ApplicationController < ActionController::API
   end
 
   def decode_token(token)
-    decoded = JWT.decode(token, '193e313c5902b104a1881d0e41df89c1', true)
+    begin
+      decoded = JWT.decode(token, '193e313c5902b104a1881d0e41df89c1', true)
+    rescue JWT::ExpiredSignature
+      return render :json => {
+        error: "Sign in again"
+      }
+    end
 
     unless decoded.nil?
       return decoded[0]["user_id"]
