@@ -33,7 +33,7 @@ class SessionController < ApplicationController
   end
 
   def destroy
-    response.delete_cookie(:jwt, {})
+    response.delete_cookie(:jwt)
   end
 
   private

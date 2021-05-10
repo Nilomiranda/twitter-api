@@ -13,7 +13,10 @@ class SessionService
       expires: 1.week.from_now,
       httponly: true,
     })
-
     token
+  end
+
+  def self.delete_session(response, cookies)
+    cookies.delete :jwt
   end
 end
