@@ -7,12 +7,12 @@
 ## User
 
 - [X] Can create a new account
-- [ ] Can read account by id
+- [X] Can read account by id
 - [ ] Can delete account
 - [ ] Can update account
 
 
 ## Sessions / Authentication
 
-- [ ] Can create session (log in)
+- [X] Can create session (log in)
 - [ ] Can delete session (log out)

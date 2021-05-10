@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   post '/users', to: 'user#create'
   get '/users/:id', to: 'user#read'
+  patch '/users/:id', to: 'user#update'
 
   post '/sessions', to: 'session#create'
+  delete '/sessions', to: 'session#destroy'
 end

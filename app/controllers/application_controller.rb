@@ -12,12 +12,12 @@ class ApplicationController < ActionController::API
   private
 
   def require_login
-    token = cookies[:jwt]
+    token = cookies[:jwt] if cookies[:jwt].present?
 
     if token.nil?
       return render :json => {
         error: "Sign in first"
-      }
+      }, status: 401
     end
 
     user_id = decode_token(token)
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::API
 
     render :json => {
       error: "Sign in first"
-    }
+    }, status: 401
   end
 
   def decode_token(token)
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::API
     rescue JWT::ExpiredSignature
       return render :json => {
         error: "Sign in again"
-      }
+      }, status: 401
     end
 
     unless decoded.nil?

@@ -1,5 +1,5 @@
 class SessionController < ApplicationController
-  skip_before_action :require_login
+  skip_before_action :require_login, only: [:create]
 
   def create
     if !session_params[:email].present? && !session_params[:nickname].present?
@@ -23,6 +23,10 @@ class SessionController < ApplicationController
     token = SessionService.create_session(user, session_params[:password], response)
 
     render json: SessionBlueprint.render({ token: token, user: user }, { root: :data })
+  end
+
+  def destroy
+    response.delete_cookie(:jwt, {})
   end
 
   private
