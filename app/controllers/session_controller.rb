@@ -24,6 +24,14 @@ class SessionController < ApplicationController
       }, status: 400
     end
 
+    token = JWT.encode(user.id, '193e313c5902b104a1881d0e41df89c1', 'HS256')
+
+    response.set_cookie(:jwt, {
+      value: token,
+      expires: 1.week.from_now,
+      httponly: true,
+    })
+
     render json: UserBlueprint.render(user, { root: :user })
   end
 
