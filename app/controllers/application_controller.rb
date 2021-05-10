@@ -20,25 +20,26 @@ class ApplicationController < ActionController::API
       }
     end
 
-    user_id = decode_jwt_token_and_get_user_id(token)
+    user_id = decode_token(token)
     puts("user_id", user_id)
 
     unless user_id.nil?
       @current_user = User.find_by(id: user_id)
-    else
-      return render :json => {
-        error: "Sign in first"
-      }
+      return
     end
+
+    render :json => {
+      error: "Sign in first"
+    }
   end
 
-  def decode_jwt_token_and_get_user_id(token)
+  def decode_token(token)
     decoded = JWT.decode(token, '193e313c5902b104a1881d0e41df89c1', true)
 
     unless decoded.nil?
-      decoded[0]["user_id"]
-    else
-      nil
+      return decoded[0]["user_id"]
     end
+
+    nil
   end
 end
