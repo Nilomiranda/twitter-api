@@ -22,6 +22,13 @@ class SessionController < ApplicationController
 
     token = SessionService.create_session(user, session_params[:password], response)
 
+    if token.nil?
+      render :json => {
+        errors: "Wrong credentials. Please try again"
+      }, status: 400
+      return
+    end
+
     render json: SessionBlueprint.render({ token: token, user: user }, { root: :data })
   end
 

@@ -3,9 +3,7 @@ class SessionService
 
   def self.create_session(user, password, response)
     unless user.authenticate(password)
-      return render :json => {
-        errors: "Wrong credentials"
-      }, status: 400
+      return nil
     end
 
     token = JWT.encode({ user_id: user.id, exp: @token_expiration }, '193e313c5902b104a1881d0e41df89c1', 'HS256')

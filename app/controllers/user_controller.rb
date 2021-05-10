@@ -34,12 +34,47 @@ class UserController < ApplicationController
   end
 
   def update
+    user_id = params[:id]
 
+    if user_id.nil?
+      return render :json => {
+        errors: "User not found"
+      }, status: 404
+    end
+
+    user = User.find_by(id: user_id)
+
+    if user.nil?
+      return render :json => {
+        errors: "User not found"
+      }, status: 404
+    end
+
+
+    if @current_user.id != user.id
+      return render :json => {
+        errors: "You can only edit your own profile"
+      }, status: 403
+    end
+
+    user.update(edit_user_params)
+
+    if user.save
+      render json: UserBlueprint.render(user, { root: :user })
+    else
+      return render :json => {
+        errors: user.errors
+      }
+    end
   end
 
   private
 
   def user_params
+    params.permit(:nickname, :email, :password)
+  end
+
+  def edit_user_params
     params.permit(:nickname, :email, :password)
   end
 end
