@@ -9,7 +9,7 @@
 - [X] Can create a new account
 - [X] Can read account by id
 - [ ] Can delete account
-- [ ] Can update account
+- [X] Can update account
 
 
 ## Sessions / Authentication
