@@ -1,4 +1,6 @@
 class SessionController < ApplicationController
+  skip_before_action :require_login
+
   def create
     if !session_params[:email].present? && !session_params[:nickname].present?
       render :json => {
@@ -24,13 +26,15 @@ class SessionController < ApplicationController
       }, status: 400
     end
 
-    token = JWT.encode(user.id, '193e313c5902b104a1881d0e41df89c1', 'HS256')
+    token = JWT.encode({ user_id: user.id }, '193e313c5902b104a1881d0e41df89c1', 'HS256')
 
     response.set_cookie(:jwt, {
       value: token,
       expires: 1.week.from_now,
       httponly: true,
     })
+
+    session[:user_id] = user.id
 
     render json: UserBlueprint.render(user, { root: :user })
   end

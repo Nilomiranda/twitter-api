@@ -1,4 +1,6 @@
 class UserController < ApplicationController
+  skip_before_action :require_login, only: [:create]
+
   def create
     @user = User.new(user_params)
 
@@ -9,6 +11,10 @@ class UserController < ApplicationController
         errors: @user.errors
       }, status: 400
     end
+  end
+
+  def read
+    render json: UserBlueprint.render(@current_user, { root: :user })
   end
 
   private
