@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  skip_before_action :require_login, only: [:create]
+  skip_before_action :require_login, only: [:create, :read]
 
   def create
     @user = User.new(user_params)
@@ -14,6 +14,26 @@ class UserController < ApplicationController
   end
 
   def read
+    user_id = params[:id]
+
+    if user_id.nil?
+      return render :json => {
+        errors: "User not found"
+      }, status: 404
+    end
+
+    user = User.find_by(id: user_id)
+
+    if user.nil?
+      return render :json => {
+        errors: "User not found"
+      }, status: 404
+    end
+
+    render json: UserBlueprint.render(user, { root: :user })
+  end
+
+  def profile
     render json: UserBlueprint.render(@current_user, { root: :user })
   end
 
