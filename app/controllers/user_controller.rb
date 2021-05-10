@@ -6,8 +6,8 @@ class UserController < ApplicationController
       render json: UserBlueprint.render(@user, { root: :user })
     else
       render :json => {
-        error: "Error saving user"
-      }
+        errors: @user.errors
+      }, status: 400
     end
   end
 

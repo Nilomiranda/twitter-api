@@ -2,7 +2,7 @@
 
 ## Basics
 
-- [ ] Endpoint to determine if API is online
+- [x] Endpoint to determine if API is online
 
 ## User
 
