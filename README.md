@@ -8,7 +8,7 @@
 
 - [X] Can create a new account
 - [X] Can read account by id
-- [ ] Can delete account
+- [X] Can delete account
 - [X] Can update account
 
 
@@ -16,3 +16,13 @@
 
 - [X] Can create session (log in)
 - [X] Can delete session (log out)
+
+## Tweets
+
+Logged user can:
+
+- [X] Create a tweet
+- [ ] Read tweets
+- [ ] Read one tweet
+- [X] Delete his tweet
+- [ ] Update his tweet

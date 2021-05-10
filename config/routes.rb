@@ -11,4 +11,9 @@ Rails.application.routes.draw do
 
   post '/sessions', to: 'session#create'
   delete '/sessions', to: 'session#destroy'
+
+  scope '/tweets' do
+    post '/', to: 'tweet#create'
+    delete '/:id', to: 'tweet#destroy'
+  end
 end
