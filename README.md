@@ -22,7 +22,8 @@
 Logged user can:
 
 - [X] Create a tweet
-- [ ] Read tweets
-- [ ] Read one tweet
+- [X] Read tweets
+  - [ ] Implement pagination
+- [X] Read one tweet
 - [X] Delete his tweet
-- [ ] Update his tweet
+- [X] Update his tweet
