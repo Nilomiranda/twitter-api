@@ -6,7 +6,7 @@
 
 ## User
 
-- [ ] Can create a new account
+- [X] Can create a new account
 - [ ] Can read account by id
 - [ ] Can delete account
 - [ ] Can update account
