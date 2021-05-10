@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   #
 
   get '/status', to: 'application#api_status'
+
+  post '/users', to: 'user#create'
 end
