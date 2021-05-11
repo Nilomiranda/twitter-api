@@ -11,6 +11,8 @@ class ApplicationController < ActionController::API
 
   private
 
+  # before editing, reading or destroying, read
+  # and make sure entity exists in the first place
   def check_entity_existence(entity)
     @target_entity = entity.find_by(id: params[:id])
 
@@ -23,6 +25,9 @@ class ApplicationController < ActionController::API
     @target_entity
   end
 
+  # before editing, or destroying, this can be used
+  # to ensure that the requesting agent is the entry
+  # entity
   def check_ownership(for_user = false)
     if for_user && @current_user.id != @target_entity.id
       return render :json => {
