@@ -18,7 +18,11 @@ class TweetController < ApplicationController
   end
 
   def index
-    render json: TweetBlueprint.render(Tweet.page(params[:page] || 1), { root: :tweets, view: :extended })
+    paginated_tweets = PaginationService.paginate(Tweet, params[:page] || 1, "tweets")
+    render :json => {
+      tweets: TweetBlueprint.render_as_json(Tweet.page(params[:page] || 1), { view: :extended }),
+      **paginated_tweets
+    }
   end
 
   def read

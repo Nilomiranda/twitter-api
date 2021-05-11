@@ -38,8 +38,12 @@ class UserController < ApplicationController
   end
 
   def tweets
-    tweets = @target_entity.tweets.page(params[:page] || 1)
-    render json: TweetBlueprint.render(tweets, { root: :tweets })
+    user = User.find_by(id: params[:id])
+    paginated_tweets = PaginationService.paginate(user.tweets, params[:page] || 1, "tweets")
+    render :json => {
+      tweets: TweetBlueprint.render_as_json(paginated_tweets["tweets"]),
+      **paginated_tweets
+    }
   end
 
   private
