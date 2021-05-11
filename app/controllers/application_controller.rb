@@ -11,6 +11,18 @@ class ApplicationController < ActionController::API
 
   private
 
+  def check_entity_existence(entity)
+    @target_entity = entity.find_by(id: params[:id])
+
+    if @target_entity.nil?
+      return render :json => {
+        errors: "Not found"
+      }, status: 404
+    end
+
+    @target_entity
+  end
+
   def require_login
     token = cookies[:jwt] if cookies[:jwt].present?
 
@@ -48,4 +60,5 @@ class ApplicationController < ActionController::API
 
     nil
   end
+
 end

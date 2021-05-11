@@ -18,6 +18,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'blueprinter', '~> 0.25.3'
 gem 'jwt', '~> 2.2', '>= 2.2.3'
 gem 'kaminari'
+gem 'rack-cors'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

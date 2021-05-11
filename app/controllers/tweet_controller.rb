@@ -1,5 +1,7 @@
 class TweetController < ApplicationController
-  skip_before_action :require_login, only: [:index]
+  skip_before_action :require_login, only: [:index, :read]
+  before_action -> (entity = Tweet) { check_entity_existence entity }
+
   def create
     tweet = Tweet.new(tweet_params)
 
@@ -19,23 +21,7 @@ class TweetController < ApplicationController
   end
 
   def read
-    tweet_id = params[:id] if params[:id].present?
-
-    if tweet_id.nil?
-      return render :json => {
-        errors: "Tweet not found"
-      }, status: 404
-    end
-
-    tweet = Tweet.find_by(id: tweet_id)
-
-    if tweet.nil?
-      return render :json => {
-        errors: "Tweet not found"
-      }, status: 404
-    end
-
-    render json: TweetBlueprint.render(tweet, { root: :tweet })
+    render json: TweetBlueprint.render(@target_entity, { root: :tweet })
   end
 
   def update
