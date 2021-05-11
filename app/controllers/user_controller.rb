@@ -1,5 +1,7 @@
 class UserController < ApplicationController
   skip_before_action :require_login, only: [:create, :read]
+  before_action -> (entity = User) { check_entity_existence entity }, only: [:read, :update, :destroy]
+  before_action -> (for_user = true) { check_ownership for_user }, only: [:update, :destroy]
 
   def create
     @user = User.new(user_params)
@@ -14,85 +16,23 @@ class UserController < ApplicationController
   end
 
   def read
-    user_id = params[:id]
-
-    if user_id.nil?
-      return render :json => {
-        errors: "User not found"
-      }, status: 404
-    end
-
-    user = User.find_by(id: user_id)
-
-    if user.nil?
-      return render :json => {
-        errors: "User not found"
-      }, status: 404
-    end
-
-    render json: UserBlueprint.render(user, { root: :user })
+    render json: UserBlueprint.render(@target_entity, { root: :user })
   end
 
   def update
-    user_id = params[:id]
+    @target_entity.update(edit_user_params)
 
-    if user_id.nil?
-      return render :json => {
-        errors: "User not found"
-      }, status: 404
-    end
-
-    user = User.find_by(id: user_id)
-
-    if user.nil?
-      return render :json => {
-        errors: "User not found"
-      }, status: 404
-    end
-
-
-    if @current_user.id != user.id
-      return render :json => {
-        errors: "You can only edit your own profile"
-      }, status: 403
-    end
-
-    user.update(edit_user_params)
-
-    if user.save
-      render json: UserBlueprint.render(user, { root: :user })
+    if @target_entity.save
+      render json: UserBlueprint.render(@target_entity, { root: :user })
     else
       return render :json => {
-        errors: user.errors
+        errors: @target_entity.errors
       }
     end
   end
 
   def destroy
-    user_id = params[:id]
-
-    if user_id.nil?
-      return render :json => {
-        errors: "User not found"
-      }, status: 404
-    end
-
-    user = User.find_by(id: user_id)
-
-    if user.nil?
-      return render :json => {
-        errors: "User not found"
-      }, status: 404
-    end
-
-
-    if @current_user.id != user.id
-      return render :json => {
-        errors: "You can only delete your own profile"
-      }, status: 403
-    end
-
-    if user.destroy
+    if @target_entity.destroy
       SessionService.delete_session(response, cookies)
     end
   end

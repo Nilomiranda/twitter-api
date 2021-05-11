@@ -1,6 +1,7 @@
 class TweetController < ApplicationController
   skip_before_action :require_login, only: [:index, :read]
-  before_action -> (entity = Tweet) { check_entity_existence entity }
+  before_action -> (entity = Tweet) { check_entity_existence entity }, only: [:read, :update, :destroy]
+  before_action :check_ownership, only: [:update, :destroy]
 
   def create
     tweet = Tweet.new(tweet_params)
@@ -25,51 +26,19 @@ class TweetController < ApplicationController
   end
 
   def update
-    tweet_id = params[:id] if params[:id].present?
+    @target_entity.update(tweet_params)
 
-    if tweet_id.nil?
-      return render :json => {
-        errors: "Tweet not found"
-      }, status: 404
-    end
-
-    tweet = Tweet.find_by(id: tweet_id)
-
-    if tweet.nil?
-      return render :json => {
-        errors: "Tweet not found"
-      }, status: 404
-    end
-
-    tweet.update(tweet_params)
-
-    if tweet.save
-      render json: TweetBlueprint.render(tweet, { root: :tweet })
+    if @target_entity.save
+      render json: TweetBlueprint.render(@target_entity, { root: :tweet })
     else
       return render :json => {
-        errors: tweet.errors
+        errors: @target_entity.errors
       }
     end
   end
 
   def destroy
-    tweet_id = params[:id] if params[:id].present?
-
-    if tweet_id.nil?
-      return render :json => {
-        errors: "Tweet not found"
-      }, status: 404
-    end
-
-    tweet = Tweet.find_by(id: tweet_id)
-
-    if tweet.nil?
-      return render :json => {
-        errors: "Tweet not found"
-      }, status: 404
-    end
-
-    tweet.destroy
+    @target_entity.destroy
   end
 
   private

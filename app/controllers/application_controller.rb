@@ -23,6 +23,24 @@ class ApplicationController < ActionController::API
     @target_entity
   end
 
+  def check_ownership(for_user = false)
+    if for_user && @current_user.id != @target_entity.id
+      return render :json => {
+        errors: "You can only #{action_name.downcase} your own profile"
+      }, status: 403
+    end
+
+    if for_user && @current_user.id == @target_entity.id
+      return
+    end
+
+    if @current_user.id != @target_entity.user.id
+      render :json => {
+        errors: "You can only #{action_name.downcase} your own #{@target_entity.class.name.downcase}"
+      }, status: 403
+    end
+  end
+
   def require_login
     token = cookies[:jwt] if cookies[:jwt].present?
 
