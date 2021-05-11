@@ -1,5 +1,5 @@
 class TweetController < ApplicationController
-  skip_before_action :require_login, only: [:index, :read]
+  skip_before_action :require_login, only: [:read]
   before_action -> (entity = Tweet) { check_entity_existence entity }, only: [:read, :update, :destroy]
   before_action :check_ownership, only: [:update, :destroy]
 
