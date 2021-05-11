@@ -23,7 +23,14 @@ Logged user can:
 
 - [X] Create a tweet
 - [X] Read tweets
-  - [ ] Implement pagination
+  - [X] Implement pagination
 - [X] Read one tweet
 - [X] Delete his tweet
 - [X] Update his tweet
+
+## TODO
+
+ Right now, the filters to check for existence in `application_controller.rb` may have
+ introduced the N+1 problem.
+ Instead of actually selecting data, just use the `exists?` active record method.
+ Leave the data loading to the controller itself.
