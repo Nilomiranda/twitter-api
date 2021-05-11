@@ -9,7 +9,7 @@ class TweetController < ApplicationController
     tweet.user = @current_user
 
     if tweet.save
-      return render json: TweetBlueprint.render(tweet, { root: :tweet })
+      return render json: TweetBlueprint.render(tweet, { root: :tweet, view: :extended })
     else
       return render :json => {
         errors: tweet.errors
@@ -18,7 +18,7 @@ class TweetController < ApplicationController
   end
 
   def index
-    render json: TweetBlueprint.render(Tweet.page(params[:page] || 1), { root: :tweets })
+    render json: TweetBlueprint.render(Tweet.page(params[:page] || 1), { root: :tweets, view: :extended })
   end
 
   def read
@@ -29,7 +29,7 @@ class TweetController < ApplicationController
     @target_entity.update(tweet_params)
 
     if @target_entity.save
-      render json: TweetBlueprint.render(@target_entity, { root: :tweet })
+      render json: TweetBlueprint.render(@target_entity, { root: :tweet,  view: :extended })
     else
       return render :json => {
         errors: @target_entity.errors

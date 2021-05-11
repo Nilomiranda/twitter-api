@@ -3,5 +3,7 @@ class TweetBlueprint < Blueprinter::Base
 
   fields :text
 
-  association :user, blueprint: UserBlueprint
+  view :extended do
+    association :user, blueprint: UserBlueprint
+  end
 end

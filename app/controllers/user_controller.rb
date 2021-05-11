@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   skip_before_action :require_login, only: [:create, :read, :tweets]
-  before_action -> (entity = User) { check_entity_existence entity }, only: [:read, :update, :destroy]
+  before_action -> (entity = User) { check_entity_existence entity }, only: [:read, :update, :destroy, :tweets]
   before_action -> (for_user = true) { check_ownership for_user }, only: [:update, :destroy]
 
   def create
@@ -38,8 +38,7 @@ class UserController < ApplicationController
   end
 
   def tweets
-    user_id = params[:id]
-    tweets = Tweet.where(user_id: user_id).page(params[:page] || 1)
+    tweets = @target_entity.tweets.page(params[:page] || 1)
     render json: TweetBlueprint.render(tweets, { root: :tweets })
   end
 
