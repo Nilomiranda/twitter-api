@@ -15,7 +15,7 @@ class TweetController < ApplicationController
   end
 
   def index
-    render json: TweetBlueprint.render(Tweet.all, { root: :tweets })
+    render json: TweetBlueprint.render(Tweet.page(params[:page] || 1), { root: :tweets })
   end
 
   def read
