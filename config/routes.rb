@@ -24,4 +24,9 @@ Rails.application.routes.draw do
     patch '/:id', to: 'tweet#update'
     delete '/:id', to: 'tweet#destroy'
   end
+
+  scope '/following' do
+    post '/:id/follow', to: 'following#create'
+    delete '/:id/unfollow', to: 'following#destroy'
+  end
 end
