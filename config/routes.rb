@@ -4,11 +4,13 @@ Rails.application.routes.draw do
 
   get '/status', to: 'application#api_status'
 
-  post '/users', to: 'user#create'
-  get '/users/:id', to: 'user#read'
-  get '/users/:id/tweets', to: 'user#tweets'
-  patch '/users/:id', to: 'user#update'
-  delete '/users/:id', to: 'user#destroy'
+  scope '/users' do
+    post '', to: 'user#create'
+    get '/:id', to: 'user#read'
+    get '/:id/tweets', to: 'user#tweets'
+    patch '/:id', to: 'user#update'
+    delete '/:id', to: 'user#destroy'
+  end
 
   post '/sessions', to: 'session#create'
   delete '/sessions', to: 'session#destroy'
