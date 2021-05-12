@@ -14,34 +14,32 @@ class ApplicationController < ActionController::API
   # before editing, reading or destroying, read
   # and make sure entity exists in the first place
   def check_entity_existence(entity)
-    @target_entity = entity.find_by(id: params[:id])
+    exists = entity.exists?(params[:id])
 
-    if @target_entity.nil?
+    if !exists
       return render :json => {
         errors: "Not found"
       }, status: 404
     end
-
-    @target_entity
   end
 
   # before editing, or destroying, this can be used
   # to ensure that the requesting agent is the entry
   # entity
-  def check_ownership(for_user = false)
-    if for_user && @current_user.id != @target_entity.id
+  def check_ownership(for_user = false, entity)
+    if for_user && @current_user.id != entity.id
       return render :json => {
         errors: "You can only #{action_name.downcase} your own profile"
       }, status: 403
     end
 
-    if for_user && @current_user.id == @target_entity.id
+    if for_user && @current_user.id == entity.id
       return
     end
 
-    if @current_user.id != @target_entity.user.id
+    if @current_user.id != entity.user.id
       render :json => {
-        errors: "You can only #{action_name.downcase} your own #{@target_entity.class.name.downcase}"
+        errors: "You can only #{action_name.downcase} your own #{entity.class.name.downcase}"
       }, status: 403
     end
   end
@@ -56,8 +54,6 @@ class ApplicationController < ActionController::API
     end
 
     user_id = decode_token(token)
-    puts("user_id", user_id)
-
     unless user_id.nil?
       @current_user = User.find_by(id: user_id)
       return

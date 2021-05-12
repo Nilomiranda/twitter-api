@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   skip_before_action :require_login, only: [:create, :read, :tweets]
   before_action -> (entity = User) { check_entity_existence entity }, only: [:read, :update, :destroy, :tweets]
-  before_action -> (for_user = true) { check_ownership for_user }, only: [:update, :destroy]
+  before_action -> (for_user = true, user = User.find_by(id: params[:id])) { check_ownership(for_user, user) }, only: [:update, :destroy]
 
   def create
     @user = User.new(user_params)
@@ -16,23 +16,29 @@ class UserController < ApplicationController
   end
 
   def read
-    render json: UserBlueprint.render(@target_entity, { root: :user })
+    user = User.find_by(id: params[:id])
+
+    render json: UserBlueprint.render(user, { root: :user })
   end
 
   def update
-    @target_entity.update(edit_user_params)
+    user = User.find_by(id: params[:id])
 
-    if @target_entity.save
-      render json: UserBlueprint.render(@target_entity, { root: :user })
+    user.update(edit_user_params)
+
+    if user.save
+      render json: UserBlueprint.render(user, { root: :user })
     else
       return render :json => {
-        errors: @target_entity.errors
+        errors: user.errors
       }
     end
   end
 
   def destroy
-    if @target_entity.destroy
+    user = User.find_by(id: params[:id])
+
+    if user.destroy
       SessionService.delete_session(response, cookies)
     end
   end

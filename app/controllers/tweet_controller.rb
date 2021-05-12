@@ -1,7 +1,8 @@
 class TweetController < ApplicationController
   skip_before_action :require_login, only: [:read]
   before_action -> (entity = Tweet) { check_entity_existence entity }, only: [:read, :update, :destroy]
-  before_action :check_ownership, only: [:update, :destroy]
+  before_action -> (for_user = false, tweet = Tweet.find_by(id: params[:id])) { check_ownership(for_user, tweet) }, only: [:update, :destroy]
+
 
   def create
     tweet = Tweet.new(tweet_params)
@@ -20,29 +21,34 @@ class TweetController < ApplicationController
   def index
     paginated_tweets = PaginationService.paginate(Tweet, params[:page] || 1, "tweets")
     render :json => {
-      tweets: TweetBlueprint.render_as_json(Tweet.page(params[:page] || 1), { view: :extended }),
-      **paginated_tweets
+      **paginated_tweets,
+      tweets: TweetBlueprint.render_as_json(paginated_tweets["tweets"], { view: :extended })
     }
   end
 
   def read
-    render json: TweetBlueprint.render(@target_entity, { root: :tweet })
+    tweet = Tweet.find_by(id: params[:id])
+    render json: TweetBlueprint.render(tweet, { root: :tweet, view: :extended })
   end
 
   def update
-    @target_entity.update(tweet_params)
+    tweet = Tweet.find_by(id: params[:id])
 
-    if @target_entity.save
-      render json: TweetBlueprint.render(@target_entity, { root: :tweet,  view: :extended })
+    tweet.update(tweet_params)
+
+    if tweet.save
+      render json: TweetBlueprint.render(tweet, { root: :tweet,  view: :extended })
     else
       return render :json => {
-        errors: @target_entity.errors
+        errors: tweet.errors
       }
     end
   end
 
   def destroy
-    @target_entity.destroy
+    tweet = Tweet.find_by(id: params[:id])
+
+    tweet.destroy
   end
 
   private
