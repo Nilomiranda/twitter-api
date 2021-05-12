@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_10_223334) do
+ActiveRecord::Schema.define(version: 2021_05_12_221426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 2021_05_10_223334) do
     t.string "recovery_password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "following_count", default: 0
+    t.integer "followers_count", default: 0
   end
 
 end
