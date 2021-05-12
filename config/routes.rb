@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get '/status', to: 'application#api_status'
 
   scope '/users' do
-    post '', to: 'user#create'
+    post '/', to: 'user#create'
     get '/:id', to: 'user#read'
     get '/:id/tweets', to: 'user#tweets'
     patch '/:id', to: 'user#update'
