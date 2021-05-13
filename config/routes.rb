@@ -28,5 +28,8 @@ Rails.application.routes.draw do
   scope '/following' do
     post '/:id/follow', to: 'following#create'
     delete '/:id/unfollow', to: 'following#destroy'
+
+    get '/:user_id/followers', to: 'following#followers'
+    get '/:user_id/following', to: 'following#following'
   end
 end

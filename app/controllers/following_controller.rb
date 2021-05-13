@@ -1,5 +1,5 @@
 class FollowingController < ApplicationController
-  before_action -> (entity = User) { check_entity_existence entity }
+  before_action -> (entity = User) { check_entity_existence entity }, only: [:create, :destroy]
 
   def create
     if params[:id].to_i == @current_user.id.to_i
@@ -43,5 +43,15 @@ class FollowingController < ApplicationController
       @current_user.decrement!(:following_count)
       user_to_unfollow.decrement!(:followers_count)
     end
+  end
+
+  def followers
+    followers = Following.references(:follower).where('followings.following_id' => params[:user_id])
+    render json: FollowBlueprint.render(followers, { view: :followers, root: :followers })
+  end
+
+  def following
+    following = Following.references(:following).where('followings.follower_id' => params[:user_id])
+    render json: FollowBlueprint.render(following, { view: :following, root: :following })
   end
 end
