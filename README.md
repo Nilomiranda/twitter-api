@@ -27,4 +27,10 @@ Logged user can:
 - [X] Read one tweet
 - [X] Delete his tweet
 - [X] Update his tweet
+
+## Following / Followers
+
+- [X] User can follow other user
+- [X] Can list followers a user has
+- [X] Can list followings a user has
  
