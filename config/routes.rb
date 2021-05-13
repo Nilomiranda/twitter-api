@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   scope '/sessions' do
+    get '/', to: 'session#current'
     post '/', to: 'session#create'
     delete '/', to: 'session#destroy'
   end

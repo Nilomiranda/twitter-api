@@ -36,6 +36,10 @@ class SessionController < ApplicationController
     response.delete_cookie(:jwt)
   end
 
+  def current
+    render json: UserBlueprint.render(@current_user, { root: :user })
+  end
+
   private
 
   def session_params
