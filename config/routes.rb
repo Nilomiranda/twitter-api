@@ -33,4 +33,8 @@ Rails.application.routes.draw do
     get '/:user_id/followers', to: 'following#followers'
     get '/:user_id/following', to: 'following#following'
   end
+
+  scope '/feed' do
+    get '/', to: 'feed#index'
+  end
 end

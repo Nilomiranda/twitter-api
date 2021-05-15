@@ -38,7 +38,7 @@ module TwitterApi
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://localhost:4000'
+        origins 'http://localhost:4000', 'http://127.0.0.1:80'
         resource(
           '*',
           headers: :any,
