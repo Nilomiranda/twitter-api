@@ -17,7 +17,7 @@ class UserController < ApplicationController
 
   def search
     query = params[:query]
-    paginated_search = PaginationService.paginate2(
+    paginated_search = PaginationService.paginate(
       User.where('nickname LIKE :nickname OR email LIKE :email', { nickname: "%#{query}%", email: "%#{query}%" }).order(followers_count: :desc),
       params[:page],
       'users',

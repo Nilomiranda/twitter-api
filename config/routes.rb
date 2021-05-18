@@ -21,7 +21,6 @@ Rails.application.routes.draw do
 
   scope '/tweets' do
     post '/', to: 'tweet#create'
-    get '/', to: 'tweet#index'
     get '/:id',  to: 'tweet#read'
     patch '/:id', to: 'tweet#update'
     delete '/:id', to: 'tweet#destroy'

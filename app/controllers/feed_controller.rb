@@ -8,10 +8,9 @@ class FeedController < ApplicationController
     return render json: FeedBlueprint.render([], { root: :feed }) unless following_ids.length != 0
 
     paginated_feed = PaginationService.paginate(
-      Tweet,
+      Tweet.where('user_id IN(:user_ids)', { user_ids: following_ids.map { |following_id| following_id['following_id']  } }),
       params[:page],
       'feed',
-      { string: 'user_id IN(:user_ids)', params: { user_ids: following_ids.map { |following_id| following_id['following_id']  } } }
     )
 
     render :json => {
