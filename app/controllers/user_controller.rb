@@ -17,11 +17,10 @@ class UserController < ApplicationController
 
   def search
     query = params[:query]
-    paginated_search = PaginationService.paginate(
-      User,
+    paginated_search = PaginationService.paginate2(
+      User.where('nickname LIKE :nickname OR email LIKE :email', { nickname: "%#{query}%", email: "%#{query}%" }).order(followers_count: :desc),
       params[:page],
       'users',
-      { string: 'nickname LIKE :nickname OR email LIKE :email', params: { nickname: "%#{query}%", email: "%#{query}%" } }
     )
 
     render :json => {
