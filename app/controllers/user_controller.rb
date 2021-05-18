@@ -15,6 +15,21 @@ class UserController < ApplicationController
     end
   end
 
+  def search
+    query = params[:query]
+    paginated_search = PaginationService.paginate(
+      User,
+      params[:page],
+      'users',
+      { string: 'nickname LIKE :nickname OR email LIKE :email', params: { nickname: "%#{query}%", email: "%#{query}%" } }
+    )
+
+    render :json => {
+      **paginated_search,
+      users: UserBlueprint.render_as_json(paginated_search['users'])
+    }
+  end
+
   def read
     user = User.find_by(id: params[:id])
 

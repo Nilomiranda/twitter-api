@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   scope '/users' do
     post '/', to: 'user#create'
+    get '/', to: 'user#search'
     get '/:id', to: 'user#read'
     get '/:id/tweets', to: 'user#tweets'
     patch '/:id', to: 'user#update'
