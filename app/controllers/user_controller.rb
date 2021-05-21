@@ -69,10 +69,10 @@ class UserController < ApplicationController
   private
 
   def user_params
-    params.permit(:nickname, :email, :password)
+    params.permit(:nickname, :email, :password, :profile_picture_url)
   end
 
   def edit_user_params
-    params.permit(:nickname, :email, :password)
+    params.permit(:nickname, :email, :password, :profile_picture_url)
   end
 end

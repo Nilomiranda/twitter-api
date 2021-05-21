@@ -51,6 +51,14 @@ class FollowingController < ApplicationController
   end
 
   def following
+    followed_user_id = params[:id]
+    unless followed_user_id.nil?
+      is_following = Following.where("followings.follower_id = :user_id AND followings.following_id = :followed_user_id", { user_id: params[:user_id], followed_user_id: followed_user_id })
+      return render :json => {
+        following: !is_following.nil?
+      }
+    end
+
     following = Following.references(:following).where('followings.follower_id' => params[:user_id])
     render json: FollowBlueprint.render(following, { view: :following, root: :following })
   end
