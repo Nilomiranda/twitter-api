@@ -37,4 +37,6 @@ Rails.application.routes.draw do
   scope '/feed' do
     get '/', to: 'feed#index'
   end
+
+  post '/upload', to: 'upload#create'
 end
