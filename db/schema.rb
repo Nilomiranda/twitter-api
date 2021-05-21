@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_13_004509) do
+ActiveRecord::Schema.define(version: 2021_05_21_230408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_004509) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "following_count", default: 0
     t.integer "followers_count", default: 0
+    t.string "profile_picture_url", default: ""
   end
 
 end
