@@ -53,9 +53,9 @@ class FollowingController < ApplicationController
   def following
     followed_user_id = params[:id]
     unless followed_user_id.nil?
-      is_following = Following.where("followings.follower_id = :user_id AND followings.following_id = :followed_user_id", { user_id: params[:user_id], followed_user_id: followed_user_id })
+      is_following = Following.where("followings.follower_id = :user_id AND followings.following_id = :followed_user_id", { user_id: params[:user_id], followed_user_id: followed_user_id }).exists?
       return render :json => {
-        following: !is_following.nil?
+        following: is_following
       }
     end
 
