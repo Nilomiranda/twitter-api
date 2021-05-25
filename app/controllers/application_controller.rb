@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :require_login
+  before_action :require_login, except: [:api_status]
 
   include ActionController::Cookies
 
