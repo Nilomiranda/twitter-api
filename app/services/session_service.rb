@@ -12,6 +12,7 @@ class SessionService
       value: token,
       expires: 1.week.from_now,
       httponly: true,
+      same_site: 'None',
     })
     token
   end
