@@ -14,7 +14,7 @@ class SessionService
       httponly: true,
       path: '/',
       same_site: 'None',
-      domain: request.host,
+      domain: '.vercel.app',
     })
     token
   end
