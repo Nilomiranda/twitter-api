@@ -14,7 +14,7 @@ class SessionService
       httponly: true,
       path: '/',
       same_site: 'None',
-      domain: nil,
+      domain: :all,
     })
     token
   end
