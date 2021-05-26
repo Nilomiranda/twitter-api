@@ -12,9 +12,6 @@ class SessionService
       value: token,
       expires: 1.week.from_now,
       httponly: true,
-      path: '/',
-      same_site: 'None',
-      domain: 'vercel.app',
     })
     token
   end
