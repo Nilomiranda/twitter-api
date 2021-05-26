@@ -1,7 +1,7 @@
 class SessionService
   @token_expiration = Time.now.to_i + 1.week
 
-  def self.create_session(user, password, response)
+  def self.create_session(user, password, response, request)
     unless user.authenticate(password)
       return nil
     end
@@ -14,7 +14,7 @@ class SessionService
       httponly: true,
       path: '/',
       same_site: 'None',
-      domain: nil,
+      domain: request.host,
     })
     token
   end

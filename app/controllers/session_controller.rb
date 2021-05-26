@@ -20,7 +20,7 @@ class SessionController < ApplicationController
       return
     end
 
-    token = SessionService.create_session(user, session_params[:password], response)
+    token = SessionService.create_session(user, session_params[:password], response, request)
 
     if token.nil?
       render :json => {
