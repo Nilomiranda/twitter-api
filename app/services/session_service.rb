@@ -14,7 +14,7 @@ class SessionService
       httponly: true,
       path: '/',
       same_site: 'None',
-      domain: '.vercel.app',
+      domain: 'https://twitter-frontend-lxg61w67t-nilomiranda.vercel.app/',
     })
     token
   end
