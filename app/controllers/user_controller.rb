@@ -36,7 +36,9 @@ class UserController < ApplicationController
   end
 
   def update
-    updated = UserService::update_user(params[:id], edit_user_params)
+    user_service = UserService.new
+
+    updated = user_service.update_user(params[:id], edit_user_params)
     unless updated[:errors]
       return render :json => updated
     end
