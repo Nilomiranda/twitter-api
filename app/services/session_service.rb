@@ -13,7 +13,7 @@ class SessionService
       expires: 1.week.from_now,
       httponly: true,
       same_site: 'None',
-      secure: true,
+      secure: ENV["RAILS_ENV"] === 'production',
     })
     token
   end
