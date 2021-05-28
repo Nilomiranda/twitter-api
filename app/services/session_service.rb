@@ -12,8 +12,8 @@ class SessionService
       value: token,
       expires: 1.week.from_now,
       httponly: true,
-      same_site: 'None',
-      secure: ENV["RAILS_ENV"] === 'production',
+      same_site: ENV["RAILS_ENV"] == 'production' ? 'None' : nil,
+      secure: ENV["RAILS_ENV"] == 'production',
     })
     token
   end
