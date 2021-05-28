@@ -4,7 +4,7 @@ class UserService < ActionController::Base
 
     if params[:new_password].present?
       begin
-        update_user_password(user, params)
+        handle_update_user_password(user, params)
       rescue ArgumentError => error
         return {
           errors: error
@@ -30,7 +30,7 @@ class UserService < ActionController::Base
 
   private
 
-  def update_user_password(user, params)
+  def handle_update_user_password(user, params)
     raise ArgumentError.new 'Missing required fields: current password and new password confirmation' unless params[:current_password].present? && params[:new_password_confirmation].present?
 
     raise ArgumentError.new 'Incorrect password' unless BCrypt::Password.new(user.password_digest) == params[:current_password]
