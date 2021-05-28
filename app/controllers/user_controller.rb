@@ -36,17 +36,12 @@ class UserController < ApplicationController
   end
 
   def update
-    user = User.find_by(id: params[:id])
-
-    user.update(edit_user_params)
-
-    if user.save
-      render json: UserBlueprint.render(user, { root: :user })
-    else
-      return render :json => {
-        errors: user.errors
-      }
+    updated = UserService::update_user(params[:id], edit_user_params)
+    unless updated[:errors]
+      return render :json => updated
     end
+
+    render :json => updated, status: :bad_request
   end
 
   def destroy
@@ -73,6 +68,6 @@ class UserController < ApplicationController
   end
 
   def edit_user_params
-    params.permit(:nickname, :email, :password, :profile_picture_url)
+    params.permit(:nickname, :email, :profile_picture_url, :current_password, :new_password, :new_password_confirmation)
   end
 end
