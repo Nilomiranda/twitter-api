@@ -19,6 +19,12 @@ class SessionService
   end
 
   def self.delete_session(response, cookies)
-    cookies.delete :jwt
+    # cookies.delete :jwt
+    response.set_cookie(:jwt, {
+      value: nil,
+      httponly: true,
+      same_site: ENV["RAILS_ENV"] == 'production' ? 'None' : nil,
+      secure: ENV["RAILS_ENV"] == 'production',
+    })
   end
 end
