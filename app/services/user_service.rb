@@ -31,11 +31,13 @@ class UserService < ActionController::Base
   private
 
   def handle_update_user_password(user, params)
+    raise ArgumentError.new 'Missing required fields: new password confirmation' if params[:current_password].present? && params[:new_password].present? && params[:new_password_confirmation].nil?
+
     raise ArgumentError.new 'Missing required fields: current password and new password confirmation' unless params[:current_password].present? && params[:new_password_confirmation].present?
 
     raise ArgumentError.new 'Incorrect password' unless BCrypt::Password.new(user.password_digest) == params[:current_password]
 
-    raise ArgumentError.new "New password and password confirmation don't match." unless params[:new_password] == params[:new_password_confirmation]
+    raise ArgumentError.new "New password and new password confirmation don't match." unless params[:new_password] == params[:new_password_confirmation]
   end
 
 end
