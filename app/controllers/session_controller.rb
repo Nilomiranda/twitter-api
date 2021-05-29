@@ -33,7 +33,7 @@ class SessionController < ApplicationController
   end
 
   def destroy
-    response.delete_cookie(:jwt)
+    SessionService.delete_session(response)
   end
 
   def current

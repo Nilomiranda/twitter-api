@@ -18,7 +18,7 @@ class SessionService
     token
   end
 
-  def self.delete_session(response, cookies)
+  def self.delete_session(response)
     # cookies.delete :jwt
     response.set_cookie(:jwt, {
       value: nil,
