@@ -44,8 +44,16 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def read_token_from_authorization_headers
+    authorization_header = request.authorization
+    pattern = /^Bearer /
+    authorization_header.gsub(pattern, '') if authorization_header && authorization_header.match(pattern)
+  end
+
   def require_login
     token = cookies[:jwt] if cookies[:jwt].present?
+
+    token = read_token_from_authorization_headers if token.nil?
 
     if token.nil?
       return render :json => {
