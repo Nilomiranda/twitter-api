@@ -23,6 +23,7 @@ gem 'faker', '~> 2.17'
 gem 'figaro', '~> 1.2'
 gem 'cloudinary'
 gem 'spring'
+gem 'mailjet'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

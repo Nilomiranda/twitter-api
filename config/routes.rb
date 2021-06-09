@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     get '/:id/tweets', to: 'user#tweets'
     patch '/:id', to: 'user#update'
     delete '/:id', to: 'user#destroy'
+
+    post '/recover-password', to: 'user#recover_password'
   end
 
   scope '/sessions' do

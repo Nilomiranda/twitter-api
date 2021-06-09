@@ -36,9 +36,12 @@ module TwitterApi
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
 
+
+    config.action_mailer.delivery_method = :mailjet
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://localhost:4000', 'http://127.0.0.1:80', /https:\/\/(.*?)\.vercel\.app/, /http:\/\/(.*?)\.vercel\.app/
+        origins 'http://localhost:4000', 'http://127.0.0.1:80', /https:\/\/(.*?)\.vercel\.app/, /http:\/\/(.*?)\.vercel\.app/, /https:\/\/(.*?)\.ngrok\.io/
         resource(
           '*',
           headers: :any,

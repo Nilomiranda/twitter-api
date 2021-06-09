@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  skip_before_action :require_login, only: [:create, :read, :tweets]
+  skip_before_action :require_login, only: [:create, :read, :tweets, :recover_password]
   before_action -> (entity = User) { check_entity_existence entity }, only: [:read, :update, :destroy, :tweets]
   before_action -> (for_user = true, user = User.find_by(id: params[:id])) { check_ownership(for_user, user) }, only: [:update, :destroy]
 
@@ -61,6 +61,10 @@ class UserController < ApplicationController
       tweets: TweetBlueprint.render_as_json(paginated_tweets["tweets"]),
       **paginated_tweets
     }
+  end
+
+  def recover_password
+    RecoverPasswordMailer.with(email: params[:email], nickname: params[:nickname]).recover_password_email.deliver_now!
   end
 
   private

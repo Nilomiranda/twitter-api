@@ -104,6 +104,10 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    mailjet (1.6.0)
+      activesupport (>= 3.1.0)
+      rack (>= 1.4.0)
+      rest-client (>= 2.0.0)
     marcel (1.0.1)
     method_source (1.0.0)
     mime-types (3.3.1)
@@ -201,6 +205,7 @@ DEPENDENCIES
   jwt (~> 2.2, >= 2.2.3)
   kaminari
   listen (~> 3.2)
+  mailjet
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rack-cors
@@ -213,4 +218,4 @@ RUBY VERSION
    ruby 2.7.1p83
 
 BUNDLED WITH
-   2.1.4
+   2.2.15
