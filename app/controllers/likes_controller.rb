@@ -1,7 +1,6 @@
 class LikesController < ApplicationController
-  before_action -> (entity: Tweet) { check_entity_existence entity }, only: :create
-  before_action -> (entity: Like) { check_entity_existence entity }, only: :delete
-  before_action -> (for_user = false, like = Like.find_by(id: params[:id])) { check_ownership(for_user, like) }, only: [:delete]
+  before_action -> (entity: Tweet) { check_entity_existence entity }, only: [:create, :delete]
+  before_action -> (for_user = false, like = Like.find_by(tweet_id: params[:id], user_id: @current_user.id)) { check_ownership(for_user, like) }, only: [:delete]
 
   def create
     tweet = Tweet.find_by(id: params[:id])
@@ -21,7 +20,7 @@ class LikesController < ApplicationController
   end
 
   def delete
-    like = Like.find_by(id: params[:id])
+    like = Like.find_by(tweet_id: params[:id], user_id: @current_user.id)
 
     begin
       like.destroy
