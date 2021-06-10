@@ -28,6 +28,10 @@ Rails.application.routes.draw do
     post '/:id/like', to: 'likes#create'
     delete '/:id/like', to: 'likes#delete'
     get '/:id/like', to: 'likes#index'
+
+    post '/:id/comment', to: 'comments#create'
+    patch '/:id/comment', to: 'comments#edit'
+    delete '/:id/comment', to: 'comments#delete'
   end
 
   scope '/following' do
