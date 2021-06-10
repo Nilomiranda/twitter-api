@@ -50,26 +50,29 @@ class ApplicationController < ActionController::API
     authorization_header.gsub(pattern, '') if authorization_header && authorization_header.match(pattern)
   end
 
-  def require_login
+  def get_current_session
     token = cookies[:jwt] if cookies[:jwt].present?
 
     token = read_token_from_authorization_headers if token.nil?
 
     if token.nil?
-      return render :json => {
-        error: "Sign in first"
-      }, status: 401
+      return @current_user = nil
     end
 
     user_id = decode_token(token)
     unless user_id.nil?
-      @current_user = User.find_by(id: user_id)
-      return
+      return @current_user = User.find_by(id: user_id)
     end
+
+    @current_user = nil
+  end
+
+  def require_login
+    get_current_session
 
     render :json => {
       error: "Sign in first"
-    }, status: 401
+    }, status: 401 if @current_user.nil?
   end
 
   def decode_token(token)
