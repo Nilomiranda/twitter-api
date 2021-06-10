@@ -18,7 +18,7 @@ class ApplicationController < ActionController::API
 
     if !exists
       return render :json => {
-        errors: "Not found"
+        errors: "#{entity.name} not found"
       }, status: 404
     end
   end

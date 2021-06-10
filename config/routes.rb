@@ -24,6 +24,10 @@ Rails.application.routes.draw do
     get '/:id',  to: 'tweet#read'
     patch '/:id', to: 'tweet#update'
     delete '/:id', to: 'tweet#destroy'
+
+    post '/:id/like', to: 'likes#create'
+    delete '/:id/like', to: 'likes#delete'
+    get '/:id/like', to: 'likes#index'
   end
 
   scope '/following' do
