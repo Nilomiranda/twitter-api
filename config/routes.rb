@@ -34,6 +34,11 @@ Rails.application.routes.draw do
     delete '/:id/comment', to: 'comments#delete'
   end
 
+  scope '/comments' do
+    post '/:id/like', to: 'comments#like'
+    delete '/:id/like', to: 'comments#unlike'
+  end
+
   scope '/following' do
     post '/:id/follow', to: 'following#create'
     delete '/:id/unfollow', to: 'following#destroy'

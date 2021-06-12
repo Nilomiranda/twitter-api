@@ -1,7 +1,9 @@
 class CommentsController < ApplicationController
   before_action -> (entity = Tweet) { check_entity_existence entity }, only: [:create]
-  before_action -> (entity = Comment) { check_entity_existence entity }, only: [:delete, :edit]
+  before_action -> (entity = Comment) { check_entity_existence entity }, only: [:delete, :edit, :like, :unlike]
+  before_action -> (entity = Like) { check_entity_existence entity }, only: [:unlike]
   before_action -> (for_user = false, entity = Comment.find_by(id: params[:id])) { check_ownership(for_user, entity) }, only: [:delete, :edit]
+  before_action -> (for_user = false, entity = Like.find_by(id: params[:id])) { check_ownership(for_user, entity) }, only: [:unlike]
 
   def create
     comment = Comment.new(comment_params)
@@ -33,6 +35,18 @@ class CommentsController < ApplicationController
         errors: comment.errors
       }, status: 400
     end
+  end
+
+  def like
+    like = Like.create(user_id: @current_user.id, comment_id: params[:id])
+
+    render :json => {
+      errors: like.errors,
+    }, status: 500 unless like.save
+  end
+
+  def unlike
+
   end
 
   private
