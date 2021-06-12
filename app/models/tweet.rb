@@ -3,6 +3,8 @@ class Tweet < ApplicationRecord
 
   belongs_to :user
 
+  has_many :comments
+
   validates :text, presence: true, length: { maximum: 300 }
 
   attr_accessor :current_user

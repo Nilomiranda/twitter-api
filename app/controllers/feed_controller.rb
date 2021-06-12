@@ -6,7 +6,7 @@ class FeedController < ApplicationController
     user_ids = params[:user_id] ? params[:user_id] : [@current_user.id, *following_ids.map { |following_id| following_id['following_id']  }  ]
 
     paginated_feed = PaginationService.paginate(
-      Tweet.where('user_id IN(:user_ids)', { user_ids: user_ids }).order(created_at: :desc),
+      Tweet.includes(:comments).where('user_id IN(:user_ids)', { user_ids: user_ids }).order(created_at: :desc),
       params[:page],
       'feed',
     )
@@ -15,6 +15,8 @@ class FeedController < ApplicationController
       tweet.current_user = @current_user
       tweet
     end
+
+    puts("paginated_feed['feed']", paginated_feed['feed'].as_json)
 
     render :json => {
       **paginated_feed,
