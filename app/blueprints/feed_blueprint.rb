@@ -4,4 +4,5 @@ class FeedBlueprint < Blueprinter::Base
   fields :id, :text, :liked
 
   association :user, blueprint: UserBlueprint
+  association :comments, blueprint: CommentBlueprint
 end

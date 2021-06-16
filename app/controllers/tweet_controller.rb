@@ -1,5 +1,6 @@
 class TweetController < ApplicationController
   skip_before_action :require_login, only: [:read]
+  before_action :get_current_session, only: [:read]
   before_action -> (entity = Tweet) { check_entity_existence entity }, only: [:read, :update, :destroy]
   before_action -> (for_user = false, tweet = Tweet.find_by(id: params[:id])) { check_ownership(for_user, tweet) }, only: [:update, :destroy]
 
@@ -20,6 +21,7 @@ class TweetController < ApplicationController
 
   def read
     tweet = Tweet.find_by(id: params[:id])
+    tweet.current_user = @current_user
     render json: TweetBlueprint.render(tweet, { root: :tweet, view: :extended })
   end
 
