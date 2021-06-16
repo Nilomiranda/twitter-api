@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action -> (entity = Tweet) { check_entity_existence entity }, only: [:create]
-  before_action -> (entity = Comment) { check_entity_existence entity }, only: [:delete, :edit, :like, :unlike]
+  before_action -> (entity = Comment) { check_entity_existence entity }, only: [:delete, :edit, :like]
   before_action -> (entity = Like) { check_entity_existence entity }, only: [:unlike]
   before_action -> (for_user = false, entity = Comment.find_by(id: params[:id])) { check_ownership(for_user, entity) }, only: [:delete, :edit]
   before_action -> (for_user = false, entity = Like.find_by(id: params[:id])) { check_ownership(for_user, entity) }, only: [:unlike]
